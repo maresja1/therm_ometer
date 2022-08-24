@@ -214,22 +214,22 @@ void setup() {
     custom_api_token = custom_mqtt_port = custom_mqtt_server = nullptr;
 
     jsonDiscoverPreset(json);
-    json["name"] = "Therm Ometer Temperature";
+    json["name"] = "Therm oMeter Temperature";
     json["device_class"] = "temperature";
     json["unit_of_measurement"] = "°C";
     json["value_template"] = "{{ value_json.roomTemp }}";
-    json["unique_id"] = topicBase.substring(1) + "-roomTemp";
-    client.beginPublish((generalTopicBase + "-roomTemp/config").c_str(), measureJson(json), true);
+    json["unique_id"] = topicBase.substring(1) + "-temp";
+    client.beginPublish((generalTopicBase + "-roomTemp/config").c_str(), measureJson(json), false);
     serializeJson(json, client);
     client.endPublish();
 
     jsonDiscoverPreset(json);
-    json["name"] = "Therm Ometer Pressure";
+    json["name"] = "Therm oMeter Pressure";
     json["device_class"] = "pressure";
     json["unit_of_measurement"] = "hPa";
     json["value_template"] = "{{ value_json.pressure }}";
-    json["unique_id"] = topicBase.substring(1) + "-roomTemp";
-    client.beginPublish((generalTopicBase + "-roomTemp/config").c_str(), measureJson(json), true);
+    json["unique_id"] = topicBase.substring(1) + "-pressure";
+    client.beginPublish((generalTopicBase + "-pressure/config").c_str(), measureJson(json), false);
     serializeJson(json, client);
     client.endPublish();
 
@@ -244,7 +244,7 @@ void jsonDiscoverPreset(JsonDocument &json) {
     json.clear();
     const JsonObject &device = json.createNestedObject("device");
     device["identifiers"] = String(EspClass::getChipId());
-    device["name"] = "Therm Ometer";
+    device["name"] = "Therm oMeter";
     json["~"] = generalTopicBase;
     json["stat_t"] = "~/state";
 }
@@ -291,7 +291,7 @@ void sendState() {
 
     const String &topicBaseState = generalTopicBase + "/state";
 //    Serial.println(topicBaseState);
-    client.beginPublish(topicBaseState.c_str(), measureJson(json), true);
+    client.beginPublish(topicBaseState.c_str(), measureJson(json), false);
     serializeJson(json, client);
     client.endPublish();
 //    serializeJson(doc, Serial);
